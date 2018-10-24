@@ -7,12 +7,12 @@
  */
 
 use config\Router;
+use Controllers\UserController;
 
 
 $app = new Router();
 
-$app->route('GET','/hello', function (){
-    echo ('hellow');
+$app->route('GET' , '/hello' , UserController::class{
 });
 
 $app->route('GET','/ola', function(){

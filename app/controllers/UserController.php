@@ -15,9 +15,12 @@ class UserController
 {
     use CrudMethods;
 
+    /**
+     * @param $id
+     */
     public function find($id)
     {
-        
+
     }
 
 

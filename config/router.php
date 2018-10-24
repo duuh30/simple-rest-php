@@ -13,7 +13,7 @@ class Router
     private $config = [];
     private $uri;
     private $method;
-
+    
     /**
      * Router constructor.
      */
