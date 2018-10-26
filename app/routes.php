@@ -7,21 +7,29 @@
  */
 
 use config\Router;
-
-
-
+use Controll\UserController;
 $app = new Router();
 
-$app->route('POST' , '/hello' , function (){
 
+
+$app->route('/hello', function (){
+    echo "Hello";
+    call_user_func("Controllers\UserController::index");
 });
 
-$app->route('GET','/ola', function(){
+$app->route('/ola', function(){
    echo ('Enois');
 });
 
-$app->route('POST','/lek', function(){
+$app->route('/lek', function(){
     echo ("DELE");
 });
 
+
+
 $app->run();
+
+
+
+
+

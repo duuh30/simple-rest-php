@@ -6,17 +6,33 @@
  * Time: 01:26
  */
 
-namespace Controllers;
+namespace Controll;
 
+use config\Router;
+use GuzzleHttp\Client;
 
-
-use Traits\CrudMethods;
 
 
 
 class UserController
 {
+    private $client;
 
+    /**
+     * UserController constructor.
+     */
+    public function __construct()
+    {
+        $this->client = new Client();
+    }
 
+    /**
+     *
+     */
+    public function index($id)
+    {
+        echo 'dale desle';
+        exit;
+    }
 
 }//end class

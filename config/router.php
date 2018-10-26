@@ -6,13 +6,16 @@
  * Time: 21:29
  */
 
+
 namespace config;
+
+use Controllers\UserController;
 
 class Router
 {
     private $config = [];
     private $uri;
-    private $method;
+//    private $method;
     
     /**
      * Router constructor.
@@ -27,10 +30,10 @@ class Router
 
 
         // Pega verbo HTTP Requisitado
-        if(isset($_SERVER["REQUEST_METHOD"])) {
-            $method = $_SERVER["REQUEST_METHOD"];
-            $this->method = $method;
-        }
+//        if(isset($_SERVER["REQUEST_METHOD"])) {
+//            $method = $_SERVER["REQUEST_METHOD"];
+//            $this->method = $method;
+//        }
 
 
     }//end __construct()
@@ -41,12 +44,11 @@ class Router
      * @param $route
      * @param $callback
      */
-    public function route($method,$route, $callback)
+    public function route($route, $callback)
     {
-
-        $this->config[] = [$route => $callback, $method => $method];
-
+        $this->config[] = [$route => $callback];
     }
+
 
 
     /**
@@ -55,14 +57,14 @@ class Router
     public function run()
     {
         foreach ($this->config as $routes){
-                        if(array_key_exists($this->uri, $routes)) {
-                            if(array_key_exists($this->method, $routes)) {
-                                if (is_callable($routes[$this->uri]) && $routes[$this->method]) {
-                                    return $routes[$this->uri]();
-                                }//end second if
-                            }
-                }//end first if
+            if(array_key_exists($this->uri, $routes)) {
+                    if (is_callable($routes[$this->uri])) {
+                        return $routes[$this->uri]();
+                    }//end second if
+            }//end first if
         }//end foreach
+
+
 
         $error = [
             "msg" => "Rota não foi encontrada, verifique seu verbo de requisição e a uri de requisição",
@@ -74,6 +76,8 @@ class Router
         exit;
 
     }//end function run
+
+
 
 
 
