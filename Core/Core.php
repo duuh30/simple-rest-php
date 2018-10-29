@@ -1,11 +1,11 @@
 <?php
-
-
-
-use Controllers\HomeController;
 /**
  * Class Core
  */
+
+
+require_once('Controller.php');
+
 class Core
 {
 
@@ -19,30 +19,19 @@ class Core
      */
     public function __construct()
     {
-        $this->controller = 'HomeController';
-        $this->action     ='index';
+        $this->controller = 'emailcontroller';
+        $this->action     = 'sendEmail';
     }
+
 
     /**
-     * handle
+     * handler
      */
-    public function handle()
+    public function handler()
     {
-
-            $controller = new HomeController;
-
-            $controller->index();
-             return call_user_func_array($this->controller,$this->action);
-//           call_user_func_array([new $this->controller(), $this->action], []);
+           call_user_func_array([new $this->controller(), $this->action], []);
     }
 
-    /**
-     * teste
-     */
-    public function teste()
-    {
-        echo "test";
-    }
 
 }
 
