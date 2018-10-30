@@ -6,45 +6,97 @@
  * Time: 14:53
  */
 
-use SendGrid\Mail\Mail;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require 'vendor/phpmailer/phpmailer/src/Exception.php';
+require 'vendor/phpmailer/phpmailer/src/PHPMailer.php';
+require 'vendor/phpmailer/phpmailer/src/SMTP.php';
 
 
 class EmailController extends Controller
 {
+
+    private $mail;
+
+    public function __construct()
+    {
+        $this->mail = new PHPMailer(true);
+    }
+
     public function sendEmail()
     {
+        $params = $this->getRequest();
+        $open = $params["open"];
 
-        $params = implode(',', $this->getRequest());
-
-        $email = new \SendGrid\Mail\Mail();
+        $params = implode(',', $params);
 
 
-        $email->setFrom('duuh-l@hotmail.com', "Testando");
-        $email->setSubject("Seus Parametros digitados");
-        $email->addHeader('duuh-l@hotmail.com', 'X-confirm-reading-to');
-        $email->addTo("duugplays@gmail.com");
 
-        $email->addContent(
-            "text/plain",
-            "Esse são seus parametros : ".$params
-        );
 
-        $sendgrid = new \SendGrid('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');
-        try {
-            $response = $sendgrid->send($email);
+        if($open === null){
+            try{
 
-            $data = [
-                "msg"          => "email enviado com sucesso",
-                "send"         => true,
-                "status_error" => false
+            $body = '<html><img src="localhost/simple-rest-php/?open=true" /></html>';
 
-            ];
 
-            return $this->response_json($data);
-        } catch (Exception $e) {
-            echo json_encode('Caught exception: ',  $e->getMessage(), "\n");
-            exit;
+                //Server settings
+                $this->mail->isSMTP();
+                $this->mail->SMTPDebug  = 1;
+                $this->mail->Host       = 'smtp.gmail.com';
+                $this->mail->SMTPAuth   = true;
+                $this->mail->SMTPSecure = "tls";
+                $this->mail->Username   = 'eduardoaugusto.mangue3@gmail.com';
+                $this->mail->Password   = 'secret';
+                $this->mail->SMTPSecure = 'tls';
+                $this->mail->Port       = 587;
+                $this->mail->CharSet    = 'UTF-8';
+                $this->mail->setFrom('eduardoaugusto.mangue3@gmail.com', 'Eduardo Augusto');
+                $this->mail->addAddress('duuh-l@hotmail.com', 'Eduardo 2');
+                $this->mail->addReplyTo('eduardoaugusto.mangue3@gmail.com', 'Eduardo Augusto');
+                $this->mail->isHTML(true);                                  // Set email format to HTML
+                $this->mail->Subject = 'Clica ai brow';
+                $this->mail->Body    = $body;
+                $this->mail->send();
+
+                return $this->response_json(["status" => ["msg" => "E-mail enviado com sucesso", "send" => true, "status_error" => false]]);
+
+            }catch(\Exception $exception){
+                return $this->response_json($exception->getMessage());
+            }
+        } else {
+            try{
+                //Server settings
+                $this->mail->isSMTP();
+                $this->mail->SMTPDebug  = 1;
+                $this->mail->Host       = 'smtp.gmail.com';
+                $this->mail->SMTPAuth   = true;
+                $this->mail->SMTPSecure = "tls";
+                $this->mail->Username   = 'eduardoaugusto.mangue3@gmail.com';
+                $this->mail->Password   = 'petronila212530';
+                $this->mail->SMTPSecure = 'tls';
+                $this->mail->Port       = 587;
+                $this->mail->CharSet    = 'UTF-8';
+                $this->mail->setFrom('eduardoaugusto.mangue3@gmail.com', 'Eduardo Augusto');
+                $this->mail->addAddress('eduardoaugusto.mangue3@gmail.com', 'Eduardo Augusto');
+                $this->mail->addReplyTo('eduardoaugusto.mangue3@gmail.com', 'Eduardo Augusto');
+                $this->mail->isHTML(true);                                  // Set email format to HTML
+                $this->mail->Subject = 'Confirmação de abertura de email';
+                $this->mail->Body    = "O email enviado foi aberto";
+                $this->mail->send();
+
+                return $this->response_json(["status" => ["msg" => "E-mail de confirmação enviado com sucesso", "send" => true, "status_error" => false]]);
+
+            }catch(\Exception $exception){
+                return $this->response_json($exception->getMessage());
+            }
         }
+
+
+
+
+
+
 
 
 
