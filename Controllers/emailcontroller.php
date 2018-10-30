@@ -37,7 +37,8 @@ class EmailController extends Controller
         if($open === null){
             try{
 
-            $body = '<html><img src="localhost/simple-rest-php/?open=true" /></html>';
+            $body = '<script type="text/javascript"> window.location.href = \'localhost/simple-rest-php?open=true\';
+                    </script>';
 
 
                 //Server settings
