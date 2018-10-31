@@ -31,16 +31,10 @@ class EmailController extends Controller
 
         $params = implode(',', $params);
 
-
-
-
-        if($open === null){
+        if($open === null or empty($open)){
             try{
 
-            $body = '<script type="text/javascript"> window.location.href = \'localhost/simple-rest-php?open=true\';
-                    </script>';
-
-
+            $body = file_get_contents(__DIR__ . '/email.html');
                 //Server settings
                 $this->mail->isSMTP();
                 $this->mail->SMTPDebug  = 1;
@@ -56,11 +50,11 @@ class EmailController extends Controller
                 $this->mail->addAddress('duuh-l@hotmail.com', 'Eduardo 2');
                 $this->mail->addReplyTo('eduardoaugusto.mangue3@gmail.com', 'Eduardo Augusto');
                 $this->mail->isHTML(true);                                  // Set email format to HTML
-                $this->mail->Subject = 'Clica ai brow';
-                $this->mail->Body    = $body;
+                $this->mail->Subject = 'Chega aqui jhow';
+                $this->mail->Body    =  $body;
                 $this->mail->send();
 
-                return $this->response_json(["status" => ["msg" => "E-mail enviado com sucesso", "send" => true, "status_error" => false]]);
+                return $this->response_json(["status" => ["msg" => "E-mail enviado com sucesso", "send" => true, "status_error" => false,]]);
 
             }catch(\Exception $exception){
                 return $this->response_json($exception->getMessage());
